@@ -41,7 +41,6 @@ export async function POST(request: Request) {
   try {
     const { userId, festivalId, response } = await request.json();
 
-    console.log("yo we here", userId, festivalId, response);
     if (!userId || !festivalId || !response) {
       return NextResponse.json(
         { error: 'Missing required parameters' },
