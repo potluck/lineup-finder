@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import SpotifyLogin from "@/components/SpotifyLogin";
 import TopItems from "@/components/TopItems";
 
@@ -9,6 +10,12 @@ export default function Home() {
         <h1 className="text-2xl font-bold">My Spotify Stats</h1>
         <SpotifyLogin />
         <TopItems />
+        <Link 
+          href="/festival-matches" 
+          className="rounded-full bg-purple-600 text-white px-6 py-3 font-bold hover:bg-purple-700"
+        >
+          Festival Lineup Matches
+        </Link>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a
