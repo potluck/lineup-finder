@@ -25,9 +25,9 @@ export default function FestivalSelector() {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         if (!response.ok) throw new Error('Failed to fetch artists');
-        
+
         const data = await response.json();
         setTopArtists(data.items.map((artist: SpotifyArtist) => artist.name));
       } catch (err) {
@@ -41,6 +41,18 @@ export default function FestivalSelector() {
   const getRecommendations = async (festival: Festival) => {
     setLoading(true);
     try {
+      // First check if we have an existing recommendation
+      const userId = localStorage.getItem('spotify_user_id'); // You'll need to store this during auth
+      const checkExisting = await fetch(`/api/recommendations/db?userId=${userId}&festivalId=${festival.id}`);
+      const existingData = await checkExisting.json();
+
+      if (existingData.recommendation) {
+        setRecommendations(existingData.recommendation.split('\n').filter(Boolean));
+        setLoading(false);
+        return;
+      }
+
+      // If no existing recommendation, get a new one
       const response = await fetch('/api/recommendations', {
         method: 'POST',
         headers: {
@@ -55,7 +67,21 @@ export default function FestivalSelector() {
       if (!response.ok) throw new Error('Failed to get recommendations');
 
       const data = await response.json();
-      setRecommendations(data.recommendations.split('\n').filter(Boolean));
+
+      // Save the new recommendation
+      await fetch('/api/recommendations/db', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          festivalId: festival.id,
+          response: data.recommendation
+        }),
+      });
+
+      setRecommendations(data.recommendation.split('\n').filter(Boolean));
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -93,7 +119,7 @@ export default function FestivalSelector() {
       {selectedFestival && (
         <div>
           <h2 className="text-xl font-bold mb-4">Selected Festival: {selectedFestival.name}</h2>
-          
+
           {loading ? (
             <p className="mb-4">Getting personalized recommendations...</p>
           ) : recommendations.length > 0 && (
@@ -113,7 +139,7 @@ export default function FestivalSelector() {
           >
             {showArtists ? 'Hide Full Lineup' : 'Show Full Lineup'}
           </button>
-          
+
           {showArtists && selectedFestival.artists && (
             <ul className="list-disc pl-6">
               {selectedFestival.artists.map((artist, index) => (

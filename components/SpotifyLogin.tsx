@@ -6,19 +6,22 @@ export default function SpotifyLogin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Check URL for token
+    // Check URL for token and userId
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
-    
-    if (token) {
+    const userId = params.get('userId');
+
+    if (token && userId) {
       localStorage.setItem('spotify_access_token', token);
+      localStorage.setItem('spotify_user_id', userId);
       setIsAuthenticated(true);
       // Clean up URL
       window.history.replaceState({}, document.title, window.location.pathname);
     } else {
-      // Check if we have an existing token
+      // Check if we have existing tokens
       const storedToken = localStorage.getItem('spotify_access_token');
-      setIsAuthenticated(!!storedToken);
+      const storedUserId = localStorage.getItem('spotify_user_id');
+      setIsAuthenticated(!!(storedToken && storedUserId));
     }
   }, []);
 

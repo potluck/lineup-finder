@@ -13,7 +13,8 @@ export async function GET(request: Request) {
   const redirectUri = process.env.SPOTIFY_REDIRECT_URI || "";
 
   try {
-    const response = await fetch('https://accounts.spotify.com/api/token', {
+    // Get access token
+    const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -26,18 +27,31 @@ export async function GET(request: Request) {
       }),
     });
 
-    const data = await response.json();
+    const tokenData = await tokenResponse.json();
 
-    if (!response.ok) {
+    if (!tokenResponse.ok) {
       throw new Error('Failed to get access token');
     }
 
-    // Redirect to home page with token
+    // Get user profile
+    const profileResponse = await fetch('https://api.spotify.com/v1/me', {
+      headers: {
+        Authorization: `Bearer ${tokenData.access_token}`,
+      },
+    });
+
+    const profileData = await profileResponse.json();
+
+    if (!profileResponse.ok) {
+      throw new Error('Failed to get user profile');
+    }
+
+    // Redirect with both token and user ID
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/?token=${data.access_token}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/?token=${tokenData.access_token}&userId=${profileData.id}`
     );
   } catch (error) {
-    console.error('Error getting access token:', error);
+    console.error('Error during authentication:', error);
     return NextResponse.redirect('/');
   }
 } 

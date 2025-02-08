@@ -1,25 +1,40 @@
 import { NextResponse } from 'next/server';
-import OpenAI from 'openai';
+// import OpenAI from 'openai';
+import { PromptLayer } from "promptlayer";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+
+// const openai = new OpenAI({
+//   apiKey: process.env.OPENAI_API_KEY,
+// });
+const promptLayerClient = new PromptLayer();
+// const OpenAI = promptLayerClient.OpenAI;
+// const openai = new OpenAI();
+
 
 export async function POST(request: Request) {
   try {
     const { festivalArtists, userTopArtists } = await request.json();
-    
-    const prompt = `Given a user who likes these artists: ${userTopArtists.join(', ')},
-    and a festival with these artists: ${festivalArtists.join(', ')},
-    which festival artists would they most likely enjoy? Return only a list of 5 artists from the festival lineup.`;
 
-    const completion = await openai.chat.completions.create({
-      messages: [{ role: "user", content: prompt }],
-      model: "gpt-3.5-turbo",
+
+    const input_variables = {
+      festivalArtists: festivalArtists.join(', '),
+      topArtists: userTopArtists.join(', ')
+    };
+
+    const response = await promptLayerClient.run({
+      promptName: "Lineup Searcher",
+      inputVariables: input_variables,
     });
 
-    const recommendations = completion.choices[0].message.content;
-    return NextResponse.json({ recommendations });
+    let recommendation;
+    if ('raw_response' in response) {
+      recommendation = response.raw_response.choices[0].message.content;
+      return NextResponse.json({ recommendation });
+    } else {
+      console.log("yo pots we had an error", response);
+      return NextResponse.json({ error: 'No recommendation found' }, { status: 404 });
+    }
+
   } catch (error) {
     console.error('Error getting recommendations:', error);
     return NextResponse.json(
