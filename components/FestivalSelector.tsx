@@ -7,10 +7,20 @@ interface SpotifyArtist {
   name: string;
 }
 
+interface ArtistRecommendation {
+  artist_name: string;
+  reasoning: string;
+}
+
+interface RecommendationResponse {
+  known_artists: ArtistRecommendation[];
+  unknown_artists: ArtistRecommendation[];
+}
+
 export default function FestivalSelector() {
   const [selectedFestival, setSelectedFestival] = useState<Festival | null>(null);
   const [showArtists, setShowArtists] = useState(false);
-  const [recommendations, setRecommendations] = useState<string[]>([]);
+  const [recommendations, setRecommendations] = useState<RecommendationResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [topArtists, setTopArtists] = useState<string[]>([]);
 
@@ -41,18 +51,16 @@ export default function FestivalSelector() {
   const getRecommendations = async (festival: Festival) => {
     setLoading(true);
     try {
-      // First check if we have an existing recommendation
-      const userId = localStorage.getItem('spotify_user_id'); // You'll need to store this during auth
+      const userId = localStorage.getItem('spotify_user_id');
       const checkExisting = await fetch(`/api/recommendations/db?userId=${userId}&festivalId=${festival.id}`);
       const existingData = await checkExisting.json();
 
       if (existingData.recommendation) {
-        setRecommendations(existingData.recommendation.split('\n').filter(Boolean));
+        setRecommendations(JSON.parse(existingData.recommendation));
         setLoading(false);
         return;
       }
 
-      // If no existing recommendation, get a new one
       const response = await fetch('/api/recommendations', {
         method: 'POST',
         headers: {
@@ -67,8 +75,8 @@ export default function FestivalSelector() {
       if (!response.ok) throw new Error('Failed to get recommendations');
 
       const data = await response.json();
+      const parsedRecommendation = JSON.parse(data.recommendation);
 
-      // Save the new recommendation
       await fetch('/api/recommendations/db', {
         method: 'POST',
         headers: {
@@ -81,7 +89,7 @@ export default function FestivalSelector() {
         }),
       });
 
-      setRecommendations(data.recommendation.split('\n').filter(Boolean));
+      setRecommendations(parsedRecommendation);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -92,7 +100,7 @@ export default function FestivalSelector() {
   const handleFestivalSelect = (festival: Festival | null) => {
     setSelectedFestival(festival);
     setShowArtists(false);
-    setRecommendations([]);
+    setRecommendations(null);
     if (festival && topArtists.length > 0) {
       getRecommendations(festival);
     }
@@ -122,14 +130,30 @@ export default function FestivalSelector() {
 
           {loading ? (
             <p className="mb-4">Getting personalized recommendations...</p>
-          ) : recommendations.length > 0 && (
+          ) : recommendations && (
             <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Recommended Artists for You:</h3>
-              <ul className="list-disc pl-6">
-                {recommendations.map((artist, index) => (
-                  <li key={index} className="mb-2">{artist}</li>
-                ))}
-              </ul>
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-2">Artists You Might Know:</h3>
+                <ul className="list-disc pl-6">
+                  {recommendations.known_artists.map((rec, index) => (
+                    <li key={index} className="mb-2">
+                      <span className="font-medium">{rec.artist_name}</span>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{rec.reasoning}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-2">New Artists to Discover:</h3>
+                <ul className="list-disc pl-6">
+                  {recommendations.unknown_artists.map((rec, index) => (
+                    <li key={index} className="mb-2">
+                      <span className="font-medium">{rec.artist_name}</span>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{rec.reasoning}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           )}
 
