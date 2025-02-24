@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import SpotifyLogin from "@/components/SpotifyLogin";
 import TopItems from "@/components/TopItems";

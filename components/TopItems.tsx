@@ -1,12 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface TopArtist {
   id: string;
   name: string;
   genres: string[];
   images: { url: string }[];
+  external_urls: {
+    spotify: string;
+  };
 }
 
 export default function TopItems() {
@@ -31,9 +35,9 @@ export default function TopItems() {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         if (!response.ok) throw new Error('Failed to fetch artists');
-        
+
         const data = await response.json();
         setArtists(data.items);
       } catch (err) {
@@ -62,14 +66,23 @@ export default function TopItems() {
         {artists.map((artist) => (
           <li key={artist.id} className="p-4 bg-gray-100 dark:bg-gray-800 rounded flex items-center gap-4">
             {artist.images[0] && (
-              <img 
-                src={artist.images[0].url} 
+              <Image
+                src={artist.images[0].url}
                 alt={artist.name}
-                className="w-16 h-16 rounded-full object-cover"
+                width={64}
+                height={64}
+                className="rounded-full object-cover"
               />
             )}
             <div>
-              <h3 className="font-bold">{artist.name}</h3>
+              <a
+                href={artist.external_urls.spotify}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold hover:underline"
+              >
+                {artist.name}
+              </a>
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 {artist.genres.slice(0, 3).join(', ')}
               </p>
@@ -79,4 +92,4 @@ export default function TopItems() {
       </ul>
     </div>
   );
-} 
+}
