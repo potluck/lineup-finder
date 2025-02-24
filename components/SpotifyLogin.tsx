@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useEffect } from 'react';
 
 export default function SpotifyLogin() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
 
   useEffect(() => {
     // Check URL for token and userId
@@ -23,7 +24,7 @@ export default function SpotifyLogin() {
       const storedUserId = localStorage.getItem('spotify_user_id');
       setIsAuthenticated(!!(storedToken && storedUserId));
     }
-  }, []);
+  }, [setIsAuthenticated]);
 
   const handleLogin = () => {
     // Redirect to our auth endpoint
@@ -55,4 +56,4 @@ export default function SpotifyLogin() {
       Connect Spotify
     </button>
   );
-} 
+}

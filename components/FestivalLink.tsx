@@ -1,16 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function FestivalLink() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('spotify_access_token');
-    const userId = localStorage.getItem('spotify_user_id');
-    setIsAuthenticated(!!(token && userId));
-  }, []);
+  const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
     return null;
