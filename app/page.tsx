@@ -9,13 +9,13 @@ export default function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1 className="text-2xl font-bold">My Spotify Stats</h1>
         <SpotifyLogin />
-        <TopItems />
         <Link 
           href="/festival-matches" 
           className="rounded-full bg-purple-600 text-white px-6 py-3 font-bold hover:bg-purple-700"
         >
-          Festival Lineup Matches
+          Artists you should discover at festivals
         </Link>
+        <TopItems />
       </main>
     </div>
   );

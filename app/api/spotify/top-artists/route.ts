@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const response = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=20&time_range=medium_term', {
+    const response = await fetch('https://api.spotify.com/v1/me/top/artists?limit=50&time_range=medium_term', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -17,14 +17,14 @@ export async function GET(request: Request) {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.error?.message || 'Failed to fetch top tracks');
+      throw new Error(data.error?.message || 'Failed to fetch top artists');
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Error fetching top tracks:', error);
+    console.error('Error fetching top artists:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch top tracks' },
+      { error: 'Failed to fetch top artists' },
       { status: 500 }
     );
   }

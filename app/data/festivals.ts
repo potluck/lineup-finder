@@ -42,5 +42,41 @@ export const festivals: Festival[] = [
       'Skrillex', 'Sosa', 'Steve Aoki', 'Sub Zero Project', 'Trym',
       'Vandal Rock + Glory', 'Yann', 'Yungin'
     ]
+  },
+  {
+    name: 'Coachella 2025',
+    id: 'coachella-2025',
+    artists: [
+      'Above & Beyond', 'A. G. Cook', 'Alok', 'Amaarae', 'Amelie Lens',
+      'Amémé', 'Amyl and the Sniffers', 'Anitta', 'Arca', 'Artemas',
+      'Austin Millz', 'Basement Jaxx', 'Beabadoobee', 'The Beaches', 'Beltran',
+      'Ben Böhmer', 'Benson Boone', 'Beth Gibbons', 'BigXthaPlug', 'Blonde Redhead',
+      'Bob Vylan', 'Boris Brejcha', 'Ca7riel & Paco Amoroso', 'Charli XCX', 'Chris Lorenzo',
+      'Chris Stussy', 'Chase & Status', 'Circle Jerks', 'Clairo', 'Coco & Breezy',
+      'Damian Lazarus', 'The Dare', 'Darkside', 'Dennis Cruz', 'Desiree Triplosm',
+      'Disco Lines', 'Dixon x Jimi Jules', 'DJ Gigola', 'Djo', 'D4vd',
+      'El Malilla', 'Eli Brown', 'Enhyphen', 'Erez', 'Eyedress',
+      'Fcukers', 'FKA twigs', 'Francis Mercier', 'Gel', 'Ginger Root',
+      'Glixen', 'Glass Beams', 'Glorilla', 'The Go-Gos', 'Green Day',
+      'Gustavo Dudamel & LA Phil', 'Haai', 'Hanumankind', 'HiTech', 'Hope Tala',
+      'Horsegiirl', 'Indira Paganotto', 'Indo Warehouse', 'Infected Mushroom', 'Interplanetary Criminal',
+      'Ivan Cornejo', 'Japanese Breakfast', 'Jennie', 'Jessie Murph', 'Jimmy Eat World',
+      'Judeline', 'Julie', 'Junior H', 'Keinemusik', 'Keshi',
+      'Klangkuenstler', 'Kneecap', 'Kraftwerk', 'Kumo 99', 'Lady Gaga',
+      'Layton Giordani', 'Lisa', 'Lola Young', 'Los Mirlos', 'Maribou State',
+      'The Mariás', 'Marina', 'Mau P', 'Medium Build', 'Megan Thee Stallion',
+      'Meute', 'Miike Snow', 'Mind Against x Massano', 'Missy Elliott', 'Mohamed Ramadan',
+      'Moon Boots', 'Muni Long', 'Mustard', 'The Original Misfits', 'Parcels',
+      'Parisi', 'Pete Tong x Ahmed Spins', 'Polo & Pan', 'Post Malone', 'Prison Affair',
+      'The Prodigy', 'Ravyn Lenae', 'Rawayana', 'Rema', 'Saint Jhn',
+      'Salute', 'Sam Fender', 'Sammy Virji', 'Sara Landry', 'Seun Kuti & Egypt 80',
+      'Shaboozey', 'Shermanology', 'Shoreline Mafia', 'Snow Strippers', 'Soft Play',
+      'Sparrow & Barbossa', 'Speed', 'Still Woozy', 'Talón', 'Thee Sacred Souls',
+      'Three 6 Mafia', 'Tink', 'Tinlicker', 'Together Pangea', 'Tops',
+      'T-Pain', 'Travis Scott', 'Tripolism', 'Ty Dolla $ign', 'Tyla',
+      'Underscores', 'Viagra Boys', 'Vintage Culture', 'Vs Self', 'VTSS',
+      'Wisp', 'XG', 'Yeat', 'Yo Gabba Gabba!', 'Yulia Niko',
+      'Zedd', '2hollis', '4batz'
+    ]
   }
 ]; 

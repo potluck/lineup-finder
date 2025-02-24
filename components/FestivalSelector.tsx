@@ -30,7 +30,7 @@ export default function FestivalSelector() {
       if (!token) return;
 
       try {
-        const response = await fetch('https://api.spotify.com/v1/me/top/artists?limit=25&time_range=medium_term', {
+        const response = await fetch('https://api.spotify.com/v1/me/top/artists?limit=50&time_range=medium_term', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
