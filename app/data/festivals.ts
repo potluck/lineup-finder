@@ -257,5 +257,23 @@ export const festivals: Festival[] = [
       'WITH LOVE FROM IBIZA', 'Wildstylez', 'X-TOF', 'YVES V PRESENTS V SESSIONS',
       'Yves V'
     ]
+  },
+  {
+    name: 'Boston Calling 2025',
+    id: 'boston-calling-2025',
+    artists: [
+      'The 502s', 'All Time Low', 'Amble', 'Avril Lavigne', 'Battlemode',
+      'Bebe Stockwell', 'The Black Crowes', 'Cage The Elephant', 'Copilot',
+      'Dave Matthews Band', 'Fall Out Boy', 'Future Teens', 'Goth Babe',
+      'Holy Roller', 'IDK HOW BUT THEY FOUND ME', 'Infinity Song', 'James Bay',
+      'Kyle Dion', 'Latrell James', 'Layzi', 'Lucius', 'Luke Combs',
+      'The Maine', 'Max McNown', 'Megan From Work', 'Megan Moroney',
+      'mike.', 'Mo Lowda & the Humble', 'Mon Rovîa', 'Nate Perry & Ragged Company',
+      'PINKLIDS', 'Public Enemy', 'Rebuilder', 'Remi Wolf', 'Sheryl Crow',
+      'sidebody', 'simon robert french', 'SNACKTIME', 'SOFIA ISELLA',
+      'Spin Doctors', 'Sublime', 'T-Pain', 'Thee Sacred Souls', 'Timmy Skelly',
+      'TLC', 'Tom Morello', 'Valley', 'Vampire Weekend', 'Vivid Bloom',
+      'Wilderado'
+    ]
   }
 ];
