@@ -1,6 +1,6 @@
-import Link from "next/link";
 import SpotifyLogin from "@/components/SpotifyLogin";
 import TopItems from "@/components/TopItems";
+import FestivalLink from "@/components/FestivalLink";
 
 export default function Home() {
   return (
@@ -8,12 +8,7 @@ export default function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1 className="text-2xl font-bold">My Spotify Stats</h1>
         <SpotifyLogin />
-        <Link 
-          href="/festival-matches" 
-          className="rounded-full bg-purple-600 text-white px-6 py-3 font-bold hover:bg-purple-700"
-        >
-          Artists you should discover at festivals
-        </Link>
+        <FestivalLink />
         <TopItems />
       </main>
     </div>
